@@ -71,6 +71,7 @@ const addMoving = (main: HTMLElement, top: HTMLElement) => {
   });
 }
 class NotePad  {
+  noteNum: number
   note: HTMLElement;
   menu: HTMLElement;
   titleBar:HTMLElement;
@@ -79,7 +80,9 @@ class NotePad  {
   resizeDiv: HTMLElement;
   resizeCornerDiv: HTMLElement;
 
-  constructor() {
+  constructor(noteNum: number) {
+    this.noteNum = noteNum;
+    
     this.note = document.createElement("div");
     this.menu = document.createElement("div");
     this.titleBar = document.createElement("div");
@@ -87,7 +90,6 @@ class NotePad  {
     this.textInput = document.createElement("textarea");
     this.resizeDiv = document.createElement("div");
     this.resizeCornerDiv = document.createElement("div");
-
     this.note.appendChild(this.menu);
 
     this.menu.appendChild(this.titleBar);
@@ -105,7 +107,7 @@ class NotePad  {
     this.resizeDiv.className = "resize-div";
     this.resizeCornerDiv.className = "resize-corner-div";
 
-    this.titleBar.textContent = "note number " + noteZValue;
+    this.titleBar.textContent = "note number " + noteNum;
     this.note.style.zIndex = (noteZValue++).toString();
     this.addEventHandlers();
     this.addToSelectionBar();
@@ -131,7 +133,8 @@ class NotePad  {
 const main = document.querySelector("main");
 const add = document.querySelector("#new-button");
 const clear = document.querySelector("#clear-button");
+var noteNum = 0;
 add?.addEventListener("click", () => {
-  const note = new NotePad();
+  const note = new NotePad(noteNum++);
   main?.appendChild(note.note);
 });
