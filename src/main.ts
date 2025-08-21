@@ -1,5 +1,7 @@
 let noteZValue = 1; //global Z value
 const NotesList = []; //list of Notes for Select Bar
+const selectBar = document.querySelector("#select-bar"); 
+
 /* I only found out about the resizing property in css after coding this. Oops */
 const addResizing = (main : HTMLElement, bottom: HTMLElement, bottomRight: HTMLElement) => {
   let startMouseLeft = 0;
