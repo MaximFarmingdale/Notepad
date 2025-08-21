@@ -101,14 +101,14 @@ class NotePad  {
     this.menu.className = "menu";
     this.content.className = "content";
     
-    this.titleBar.id = "title-bar";
-    this.resizeDiv.id = "resize-div";
-    this.resizeCornerDiv.id = "resize-corner-div";
+    this.titleBar.className = "title-bar";
+    this.resizeDiv.className = "resize-div";
+    this.resizeCornerDiv.className = "resize-corner-div";
 
     this.titleBar.textContent = "note number " + noteZValue;
     this.note.style.zIndex = (noteZValue++).toString();
-    NotesList.push(this);
     this.addEventHandlers();
+    this.addToSelectionBar();
   }
   /*Eventhandlers for resizing and moving notes. In the furture if I need to
   repicate this effect again I can make a more abstracted version that works with
@@ -119,6 +119,13 @@ class NotePad  {
     this.note.addEventListener("focusin", () => 
       this.note.style.zIndex = (noteZValue++).toString()
     );
+  }
+  addToSelectionBar = () => {
+    NotesList.push(this);
+    const currentNoteSelector = document.createElement("div");
+    currentNoteSelector.className = "select-note";
+    currentNoteSelector.textContent = "note number " + NotesList.length;
+    selectBar?.appendChild(currentNoteSelector);
   }
 }
 const main = document.querySelector("main");

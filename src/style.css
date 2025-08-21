@@ -51,7 +51,7 @@ button:hover {
   height: 1.5rem;
   size: 2rem;
 }
-#title-bar {
+.title-bar {
   position:absolute;
   top: 0;
   left: 0;
@@ -60,7 +60,7 @@ button:hover {
   height: 7rem;
   user-select: none;
 }
-#resize-div {
+.resize-div {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -68,7 +68,7 @@ button:hover {
   height: 15px;
   
 }
-#resize-corner-div {
+.resize-corner-div {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -92,9 +92,18 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 7px; /*maybe convert to rems?*/
+  margin: 5px, 0px;
   position: absolute;
   bottom: 1.5rem;
+  left: 0px;
   height: 5rem;
+  width: 100%;
+}
+.select-note {
+  border: 2px solid black;
+  height: 3rem;
+  width: fit-content;
 }
 
 
