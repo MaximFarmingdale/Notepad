@@ -1,7 +1,8 @@
 let noteZValue = 1; //global Z value
-const NotesList = []; //list of Notes for Select Bar
-const selectBar = document.querySelector("#select-bar"); 
-
+const NotesList: NotePad[] = []; //list of Notes for Select Bar
+const selectBar: HTMLElement = document.querySelector("#select-bar") as HTMLElement; 
+var focusedNote: HTMLElement; /* focused note which is used in the del button 
+event listner. In the future I could make this into a stack.
 /* I only found out about the resizing property in css after coding this. Oops */
 const addResizing = (main : HTMLElement, bottom: HTMLElement, bottomRight: HTMLElement) => {
   let startMouseLeft = 0;
@@ -111,6 +112,7 @@ class NotePad  {
     this.note.style.zIndex = (noteZValue++).toString();
     this.addEventHandlers();
     this.addToSelectionBar();
+    focusedNote = this.note;
   }
   /*Eventhandlers for resizing and moving notes. In the furture if I need to
   repicate this effect again I can make a more abstracted version that works with
@@ -118,23 +120,43 @@ class NotePad  {
   addEventHandlers() {
     addResizing(this.note, this.resizeDiv, this.resizeCornerDiv);
     addMoving(this.note, this.titleBar);
-    this.note.addEventListener("focusin", () => 
+    this.note.addEventListener("focusin", () => {
+      focusedNote = this.note;
       this.note.style.zIndex = (noteZValue++).toString()
-    );
+  });
   }
   addToSelectionBar = () => {
     NotesList.push(this);
     const currentNoteSelector = document.createElement("div");
     currentNoteSelector.className = "select-note";
-    currentNoteSelector.textContent = "note number " + NotesList.length;
+    currentNoteSelector.textContent = "note number " + noteNum;
     selectBar?.appendChild(currentNoteSelector);
   }
+
 }
-const main = document.querySelector("main");
-const add = document.querySelector("#new-button");
-const clear = document.querySelector("#clear-button");
+const main = document.querySelector("main") as HTMLElement;
+const add = document.querySelector("#new-button") as HTMLElement;
+const del = document.querySelector("#del-button") as HTMLElement;
+const clear = document.querySelector("#clear-button") as HTMLElement;
 var noteNum = 0;
-add?.addEventListener("click", () => {
+add.addEventListener("click", () => {
   const note = new NotePad(noteNum++);
   main?.appendChild(note.note);
+});
+const delNote = () => {
+  console.log("deleting note");
+  const currentNoteIndex = NotesList.findIndex((member) => member.note === focusedNote);
+  if (focusedNote?.className === "note"&& currentNoteIndex !== -1) {
+    console.log()
+    main.removeChild(focusedNote);
+    NotesList.splice(currentNoteIndex, 1);
+    selectBar.removeChild(selectBar.children[currentNoteIndex]);
+  }
+}
+del.addEventListener("click", delNote);
+document.addEventListener("keydown", (e) => {
+  console.log(`current key pressed is ${e.key}`)
+  if(e.key === "Delete" || e.key === "Backspace") {
+    delNote();
+  }
 });
