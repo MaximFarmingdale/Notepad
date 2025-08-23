@@ -140,11 +140,11 @@ const del = document.querySelector("#del-button") as HTMLElement;
 const clear = document.querySelector("#clear-button") as HTMLElement;
 var noteNum = 0;
 add.addEventListener("click", () => {
-  const note = new NotePad(noteNum++);
+  const note = new NotePad(++noteNum);
   main?.appendChild(note.note);
 });
 const delNote = () => {
-  console.log("deleting note");
+  //console.log("deleting note");
   const currentNoteIndex = NotesList.findIndex((member) => member.note === focusedNote);
   if (focusedNote?.className === "note"&& currentNoteIndex !== -1) {
     console.log()
@@ -160,3 +160,18 @@ document.addEventListener("keydown", (e) => {
     delNote();
   }
 });
+
+
+const clearNote = () => {
+  const selectors = selectBar.querySelectorAll(".select-note");
+  selectors.forEach((selector) => selectBar.removeChild(selector));
+  NotesList.forEach((notepad) => main.removeChild(notepad.note));
+}
+clear.addEventListener("click", clearNote);
+document.addEventListener("keydown", (e) => {
+  if(e.key === "c") {
+    clearNote();
+  }
+})
+
+
